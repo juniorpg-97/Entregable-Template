@@ -12,7 +12,15 @@ export const getMenu = async (req: Request, res: Response) => {
     /*#swagger.tags = ['Products']
       #swagger.summary = 'Obtener todos los productos' */
 
-    const products = await getAllProducts();
+    const maxPrice = req.query.maxPrice
+      ? Number(req.query.maxPrice)
+      : undefined;
+
+    const page = req.query.page ? Number(req.query.page) : undefined;
+
+    const limit = req.query.limit ? Number(req.query.limit) : undefined;
+
+    const products = await getAllProducts(maxPrice, page, limit);
 
     res.json(products);
   } catch (error) {
